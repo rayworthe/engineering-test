@@ -1,6 +1,6 @@
 FROM node:lts-gallium
 
-RUN apt-get update -y && npm install -g nx && npm install -g @nrwl/cli
+RUN npm install -g nx && npm install -g @nrwl/cli
 
 COPY --chown=node:node . /usr/src/app
 
