@@ -65,3 +65,40 @@ pnpm demo
 # Run the tests
 pnpm test
 ```
+
+- Task 4 - Created a front end to
+
+I hvae created a front end to consume the api clinent created in Task 3 using pnpm link
+
+Its living in lib for now to keep things simple, but would live in its own repo.
+
+Uses NextJs
+
+It includes;
+
+- Uses the Mantine components library for front end components, alongside Tailwind for utility styling
+- Server side data fetching using the api client created in Task 3, so all API calls (with retry / timeout / typed errors) happen on the server
+- App Router with dynamic routing (`/bookings/[id]`) to demonstrate a detail page
+- Error handling wired through the whole pipeline:
+    - `NotFoundError` from the client - `notFound()` - a friendly `not-found.tsx`
+    - Any other thrown error - `error.tsx` boundary with a "Try again" button that calls `reset()` to re-run the server component
+    - The `error.digest` is surfaced to the user as a reference - in production this would tag a log event so we can link the event to a specific error
+- `loading.tsx` files provide Suspense fallbacks during server fetches
+- A shared `SitePage` layout component so pages can opt in/out of the scroll area
+- Bookings list uses TanStack Table with column sorting, and each row's ID is a `Link` to the detail page
+- Active tab state derived from `usePathname()` and matched against the route's first segment so nested routes (`/bookings/123`) still highlight the correct tab
+
+---
+
+Make sure the API server is running first: `docker-compose up -d --force-recreate`
+And the data is seeded, as per instructions in README
+
+```bash
+cd libs/api-front-end
+
+pnpm install
+
+# take a look around in dev env
+pnpm dev
+
+```
