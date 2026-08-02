@@ -2,7 +2,7 @@
 
 import { Avatar, Box, Button, Container, Group, Menu, Tabs, Title } from '@mantine/core';
 import { usePathname } from 'next/navigation';
-import classes from './index.module.css';
+import './index.css';
 import Link from 'next/link';
 import { ChevronDown, Settings, User, LogOut } from 'lucide-react';
 
@@ -16,8 +16,13 @@ const tabs = [
 const Toolbar = () => {
     const pathname = usePathname();
 
+    const activeTab = tabs.find((tab) => {
+        if (tab.path === '/') return pathname === '/';
+        return pathname === tab.path || pathname.startsWith(`${tab.path}/`);
+    })?.path ?? null;
+
     return (
-        <Box className={classes.header}>
+        <Box className='header'>
             <Container py='md'>
                 <Group w='100%' justify='space-between' align='center'>
                     <Title order={2}>Eurocamp Admin Portal</Title>
@@ -30,7 +35,6 @@ const Toolbar = () => {
                                     <Avatar
                                         size='sm'
                                         radius='xl'
-                                        src='https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
                                     />
                                 }
                                 variant='subtle'
@@ -63,11 +67,11 @@ const Toolbar = () => {
             </Container>
             <Tabs
                 classNames={{
-                    root: classes.tabs,
-                    list: classes.tabsList,
-                    tab: classes.tab,
+                    root: 'tabs',
+                    list: 'tabsList',
+                    tab: 'tab',
                 }}
-                value={pathname}
+                value={activeTab}
                 variant='outline'
             >
                 <Box bg='gray.0'>
